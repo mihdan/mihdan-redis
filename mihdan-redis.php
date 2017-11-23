@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Mihdan: Redis
  * Description: Добавляет меню управления кешем редиски и статистику с ее метабоксом
- * Version: 1.0
+ * Version: 1.1
  * GitHub Plugin URI: https://github.com/mihdan/mihdan-redi
  *
  * @link https://github.com/pantheon-systems/wp-redis/wiki
