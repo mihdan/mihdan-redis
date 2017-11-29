@@ -38,11 +38,28 @@ if ( function_exists( 'wp_cache_flush' ) ) {
 	 * Fixme: Заплатка - очистим транзитный кеш во время добавления
 	 * ссылки на post public preview
 	 */
-	function mihdan_redis_flush_cache( $option ) {
-		wp_cache_delete( 'public_post_preview', 'options' );
-		wp_cache_delete( 'alloptions', 'options' );
-	}
-	add_action( 'add_option_public_post_preview', 'mihdan_redis_flush_cache' );
-	add_action( 'update_option_public_post_preview', 'mihdan_redis_flush_cache' );
+	//function mihdan_redis_flush_cache( $option ) {
+	//	wp_cache_delete( 'public_post_preview', 'options' );
+	//	wp_cache_delete( 'alloptions', 'options' );
+	//}
+	//add_action( 'add_option_public_post_preview', 'mihdan_redis_flush_cache' );
+	//add_action( 'update_option_public_post_preview', 'mihdan_redis_flush_cache' );
 	//add_action( 'update_option_cron', 'mihdan_redis_flush_cache' );
+
+	/**
+	 * Fix a race condition in alloptions caching
+	 *
+	 * @see https://core.trac.wordpress.org/ticket/31245
+	 */
+	function mihdan_ticket_31245_patch( $option ) {
+		if ( ! wp_installing() ) {
+			$alloptions = wp_load_alloptions(); //alloptions should be cached at this point
+			if ( isset( $alloptions[ $option ] ) ) { //only if option is among alloptions
+				wp_cache_delete( 'alloptions', 'options' );
+			}
+		}
+	}
+	add_action( 'added_option',   'mihdan_ticket_31245_patch' );
+	add_action( 'updated_option', 'mihdan_ticket_31245_patch' );
+	add_action( 'deleted_option', 'mihdan_ticket_31245_patch' );
 }
