@@ -32,7 +32,7 @@ if ( function_exists( 'wp_cache_flush' ) ) {
 			wp_cache_delete( 'alloptions', 'options' );
 		}
 	}
-	//add_action( 'redis_object_cache_set', 'mihdan_redis_object_cache_delete_alloptions', 10, 4 );
+	add_action( 'redis_object_cache_set', 'mihdan_redis_object_cache_delete_alloptions', 10, 4 );
 
 	/**
 	 * Fixme: Заплатка - очистим транзитный кеш во время добавления
