@@ -35,18 +35,6 @@ if ( function_exists( 'wp_cache_flush' ) ) {
 	add_action( 'redis_object_cache_set', 'mihdan_redis_object_cache_delete_alloptions', 10, 4 );
 
 	/**
-	 * Fixme: Заплатка - очистим транзитный кеш во время добавления
-	 * ссылки на post public preview
-	 */
-	//function mihdan_redis_flush_cache( $option ) {
-	//	wp_cache_delete( 'public_post_preview', 'options' );
-	//	wp_cache_delete( 'alloptions', 'options' );
-	//}
-	//add_action( 'add_option_public_post_preview', 'mihdan_redis_flush_cache' );
-	//add_action( 'update_option_public_post_preview', 'mihdan_redis_flush_cache' );
-	//add_action( 'update_option_cron', 'mihdan_redis_flush_cache' );
-
-	/**
 	 * Fix a race condition in alloptions caching
 	 *
 	 * @see https://core.trac.wordpress.org/ticket/31245
